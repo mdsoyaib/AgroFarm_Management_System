@@ -23,7 +23,7 @@ GreenAgro Shop Details
     </div>
 </section>
 <!-- Breadcrumb Section End -->
-
+{% if product.active %}
 <!-- Product Details Section Begin -->
 <section class="product-details spad">
     <div class="container">
@@ -37,6 +37,7 @@ GreenAgro Shop Details
 
                 </div>
             </div>
+
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__text">
                     <h3>{{product.name}}</h3>
@@ -164,6 +165,10 @@ GreenAgro Shop Details
         </div>
     </div>
 </section>
+{% else %}
+    <p style="color: red; padding-top: 80px; text-align: center; padding-bottom: 100px;">
+        This product is currently not available.</p>
+{% endif %}
 <!-- Related Product Section End -->
 {% endblock content %}
 
