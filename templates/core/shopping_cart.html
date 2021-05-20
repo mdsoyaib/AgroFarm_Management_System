@@ -60,6 +60,7 @@ GreenAgro Shopping Cart
                         <tbody>
                         {% for item in cart %}
                         {% with product=item.product %}
+
                         <tr>
                             <td class="shoping__cart__image">
                                 <a href="/products/{{product.id}}"><img src="/media/{{ product.product_image }}"
