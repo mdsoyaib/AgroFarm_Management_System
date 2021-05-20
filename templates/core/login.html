@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+    GreenAgro Login
+{% endblock title %}
+
+{% block content %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+
+
+    {% load crispy_forms_tags %}
+    <div class="container" style="margin-top: 50px;">
+        <div class="row justify-content-center">
+            <div class="col-md-5 shadow-sm p-3 mb-5 bg-white rounded">
+                <h2>Login</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+
+                    {% if form.errors %}
+                        <div class="error">Email or password is incorrect!</div>
+                        <br/>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <br/>
+                    Forgot password? <a href="{% url 'password_reset' %}">reset it here</a>
+
+                    <br/>
+                    <br/>
+                    Don't have an account? <a href="{% url 'signup' %}">Create New Account</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{#  <form method='POST'>#}
+{#    {% csrf_token %}#}
+{#    {{ form }}#}
+{#    <button type='submit'>Submit</button>#}
+{#  </form>#}
+{#Need An Account? <a href="{% url 'register' %}">Sign Up</a></form>#}
+{##}
+{#   Assumes you setup the password_reset view in your URLconf #}
+{#  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>#}
+
+{% endblock %}

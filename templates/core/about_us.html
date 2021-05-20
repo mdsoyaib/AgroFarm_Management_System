@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+    GreenAgro Blog
+{% endblock title %}
+
+{% block content %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="/static/core/img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>About Us</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'index' %}">Home</a>
+                            <span>About Us</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Blog Section Begin -->
+    <section class="blog spad">
+        <div class="container">
+            {% for info in info %}
+            {% if info.active %}
+            <div class="row">
+                <div class="about__us">
+                    <h3>ABOUT US</h3>
+                    <p>{{info.about_us}}</p>
+                </div>
+                <div class="contact__info">
+                    <h3>CONTACT INFORMATION</h3>
+                    <p>{{info.contact_info}} <a href="{% url 'contact' %}">Contact</a> page.
+                    </p>
+                </div>
+                <div class="payment">
+                    <h3>PAYMENT METHOD</h3>
+                    <p>{{info.payment_method}}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    <!-- Blog Section End -->
+{% endblock content %}

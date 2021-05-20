@@ -1,0 +1,28 @@
+{% block mobileNav %}
+<div class="humberger__menu__wrapper">
+        <div class="humberger__menu__logo">
+            <a href="#"><img src="/static/core/img/agrofarm.png" alt=""
+                             style="max-height:50px"></a>
+        </div>
+        <nav class="humberger__menu__nav mobile-menu">
+            <ul>
+                {% url 'index' as url %}
+                <li class="{% if request.path == url %}active{% endif %}"><a href="{% url 'index' %}">Home</a></li>
+                {% url 'products' as url %}
+                <li class="{% if request.path == url %}active{% endif %}"><a href="{% url 'products' %}">Products</a></li>
+                {% url 'product_details' as url %}
+                <li class="{% if request.path == url %}active{% endif %}"><a href="#">Pages</a>
+                    <ul class="header__menu__dropdown">
+                        {% url 'checkout' as url %}
+                        <li class="{% if request.path == url %}active{% endif %}"><a href="{% url 'checkout' %}">Check Out</a></li>
+                    </ul>
+                </li>
+                {% url 'about_us' as url %}
+                <li class="{% if request.path == url %}active{% endif %}"><a href="{% url 'about_us' %}">About Us</a></li>
+                {% url 'contact' as url %}
+                <li class="{% if request.path == url %}active{% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+    </div>
+{% endblock mobileNav %}

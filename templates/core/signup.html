@@ -1,0 +1,107 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+    SignUp
+{% endblock title %}
+
+{% block content %}
+
+{% comment %}
+{% if form.errors %}
+    {% for key, val in form.errors.items %}
+    <div id="error">{{ val }}</div>
+    {% endfor %}
+{% endif %}
+{% endcomment %}
+
+<style>
+    div.error {
+        color: red;
+    }
+</style>
+
+    <div class="container" style="margin-top: 50px;">
+        <div class="row justify-content-center">
+            <div class="col-md-5 shadow-sm p-3 mb-5 bg-white rounded">
+                <h2>Signup</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" value="{{ form.first_name.value }}" class="form-control" id="first_name" placeholder="Enter first name"
+      name="first_name">
+                        {% if form.first_name.errors %}
+                            {% for error in form.first_name.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" value="{{ form.last_name.value }}" class="form-control" id="last_name" placeholder="Enter last name"
+      name="last_name">
+                        {% if form.last_name.errors %}
+                            {% for error in form.last_name.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" value="{{ form.email.value }}" class="form-control" id="email" placeholder="Enter email" name="email">
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd1">Password:</label>
+                        <input type="password" value="{{ form.password1.value }}" class="form-control" id="pwd1" placeholder="Enter password" name="password1">
+                        {% if form.password1.errors %}
+                            {% for error in form.password1.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd2">Confirm Password:</label>
+                        <input type="password" value="{{ form.password2.value }}" class="form-control" id="pwd2" placeholder="Reenter password"
+      name="password2">
+                        {% if form.password2.errors %}
+                            {% for error in form.password2.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form-group custom-file">
+                        <input type="file" name="profile_image" value="{{ form.profile_image.value }}" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+
+                        {% if form.profile_image.errors %}
+                            {% for error in form.profile_image.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <br/>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <br/>
+                    <br/>
+                    Already have an account? <a href="{% url 'login' %}">Log In</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function() {
+      var fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+{% endblock content %}

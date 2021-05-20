@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!--    favicon  -->
+    <link rel="icon" href="/static/core/img/favicon.png" type="image/gif/png" sizes="16x16">
+
+    <title>
+        {% block title %}
+        {{page_title|default:"Untitled Page"}}
+        {% endblock title %}
+    </title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Audiowide&family=Baumans&family=Montserrat+Alternates:wght@600&family=Orbitron:wght@500&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="/static/core/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/core/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/core/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/static/core/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/static/core/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/core/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/core/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/core/css/style.css" type="text/css">
+    <script src="/static/core/jquery/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- mobilemenu Begin -->
+<div class="humberger__menu__overlay"></div>
+{% block mobileNav %}
+{% include "core/mobileNav.html" %}
+{% endblock mobileNav %}
+<!-- mobilemenu End -->
+
+<!-- Header Section Begin -->
+<header class="header">
+    {% block desktopNav %}
+    {% include "core/desktopNav.html" %}
+    {% endblock desktopNav %}
+</header>
+<!-- Header Section End -->
+
+<!-- Hero Section Begin -->
+<section class="hero hero-normal">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                {% block departments %}
+                {% include 'core/departments.html' %}
+                {% endblock departments %}
+            </div>
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form role="search" action="/search/">
+                            <div class="hero__search__categories">
+                                All Categories
+                            </div>
+                            <input type="text" name="q" placeholder="What do yo u need?">
+                            <button type="submit" class="site-btn">SEARCH</button>
+                        </form>
+                    </div>
+                    <div class="hero__cart">
+                        <div class="header__cart">
+                            <ul>
+                                <li>
+                                    <a href="{% url 'cart_detail' %}" title="Click to View Cart">
+                                    <i class="fa fa-shopping-bag"></i>
+                                    {% with total_items=cart|length %}
+                                    {% if total_items > 0 %}
+                                    <span>{{ total_items }}</span>
+                                    {% endif %}
+                                    {% endwith %}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+{% block content %}
+{% endblock content %}
+
+<!-- Footer Section Begin -->
+<footer class="footer spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer__copyright">
+                    <p>
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                        All rights reserved by Green Agro
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<!-- Js Plugins -->
+<script src="/static/core/js/jquery-3.3.1.min.js"></script>
+<script src="/static/core/js/bootstrap.min.js"></script>
+<script src="/static/core/js/jquery.nice-select.min.js"></script>
+<script src="/static/core/js/jquery-ui.min.js"></script>
+<script src="/static/core/js/jquery.slicknav.js"></script>
+<script src="/static/core/js/mixitup.min.js"></script>
+<script src="/static/core/js/owl.carousel.min.js"></script>
+<script src="/static/core/js/main.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
