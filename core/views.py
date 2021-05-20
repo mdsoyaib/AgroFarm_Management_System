@@ -33,7 +33,8 @@ class AboutUs(View):
 
 class Checkout(View):
     def get(self, request):
-        return render(request, 'core/checkout.html')
+        cart = Cart(request)
+        return render(request, 'core/checkout.html', {'cart': cart})
 
 
 class Contact(View):

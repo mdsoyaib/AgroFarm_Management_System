@@ -250,8 +250,8 @@ class Order(models.Model):
         ("DELIVERED", "Delivered"),
     )
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    order_date = models.DateField()
-    order_time = models.TimeField()
+    order_date = models.DateField(auto_now_add=True)
+    order_time = models.TimeField(auto_now_add=True)
     total_price = models.PositiveIntegerField()
     status = models.CharField(max_length=50, default='Pending', choices=status)
     created_at = models.DateTimeField('date time created at', auto_now_add=True)
