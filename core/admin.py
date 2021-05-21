@@ -64,7 +64,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('unit_type', 'category', 'active', 'featured')
     search_fields = ('name', 'category', 'unit_type')
     list_per_page = 20
-    # ordering = ('-category',)
+    # ordering = ('name',)
 
 
 @admin.register(ProductStock)
