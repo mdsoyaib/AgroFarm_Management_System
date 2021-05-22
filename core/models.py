@@ -41,10 +41,15 @@ class InhouseProduct(models.Model):
 class InhouseStock(models.Model):
     inhouse_product = models.OneToOneField(InhouseProduct, on_delete=models.CASCADE)
     stock_in = models.PositiveIntegerField()
-    stock_out = models.PositiveIntegerField(null=True, blank=True)
+    stock_out = models.PositiveIntegerField()
     current_stock = models.PositiveIntegerField(null=True, blank=True, editable=True)
     created_at = models.DateTimeField('date time created at', auto_now_add=True)
     updated_at = models.DateTimeField('date time updated at', auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # if self.stock_in & self.stock_out:
+        self.current_stock = self.stock_in - self.stock_out
+        return super(InhouseStock, self).save(*args, **kwargs)
 
 
 # @receiver(pre_save, sender=InhouseStock)
@@ -284,4 +289,13 @@ class WebsiteInfo(models.Model):
     active = models.BooleanField(default=True)
 
 
-
+# class Salary(models.Model):
+#     name = models.CharField(max_length= 50)
+#     salary = models.IntegerField()
+#     bonus = models.IntegerField()
+#     total_salary = models.IntegerField(null=True, blank=True)
+#
+#     def save(self, *args, **kwargs):
+#         if self.salary & self.bonus:
+#             self.total_salary = self.salary + self.bonus
+#         return super(Salary, self).save(*args, **kwargs)

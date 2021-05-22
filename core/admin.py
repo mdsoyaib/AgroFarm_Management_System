@@ -1,7 +1,7 @@
 # import form as form
 from django.contrib import admin
-from core.models import InhouseProduct, InhouseStock, Instrument, Worker, Expenses, \
-    Product, ProductStock, Order, OrderDetail, CustomUser, WebsiteInfo
+from core.models import InhouseProduct, Instrument, Worker, Expenses, \
+    Product, ProductStock, Order, OrderDetail, CustomUser, WebsiteInfo, InhouseStock
 
 # Register your models here.
 
@@ -22,9 +22,9 @@ class InhouseProductAdmin(admin.ModelAdmin):
 @admin.register(InhouseStock)
 class InhouseStockAdmin(admin.ModelAdmin):
     list_display = ('inhouse_product', 'stock_in', 'stock_out', 'current_stock')
-    list_editable = ('stock_in', 'stock_out', 'current_stock')
+    # list_editable = ('stock_in', 'stock_out', 'current_stock')
     search_fields = ('inhouse_product',)
-    # readonly_fields = ('current_stock',)
+    readonly_fields = ('current_stock',)
     list_per_page = 20
 
 
@@ -113,3 +113,8 @@ class WebsiteInfoAdmin(admin.ModelAdmin):
                     'map_address', 'contact_info', 'payment_method')
     list_display_links = ('phone',)
     list_filter = ('active',)
+
+
+# @admin.register(Salary)
+# class SalaryAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'salary', 'bonus', 'total_salary')
