@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.tokens import default_token_generator
@@ -90,10 +91,35 @@ class ShoppingCart(View):
     def get(self, request):
         return render(request, 'core/shopping_cart.html')
 
+# ---------------- user profile ----------------
 
-class UserProfile(View):
-    def get(self, request):
-        return render(request, 'core/user_profile.html')
+
+def user_profile(request):
+    return render(request, 'core/user_profile.html')
+
+
+# def update_profile(request, id):
+#     if request.method == "POST":
+#         first_name = request.POST['first_name']
+#         last_name = request.POST['last_name']
+#         phone = request.POST['phone']
+#         address = request.POST['inputAddress']
+#         city = request.POST['inputCity']
+#         state = request.POST['inputAddress2']
+#         zip_code = request.POST['inputZip']
+
+        # image = request.FILES['image_file']
+        # if (first_name == '' or last_name == '' or phone == '' or address == ''
+        #         or city == '' or state == '' or zip_code == ''):
+        #     messages.warning(request, "Please fill form Correctly..!")
+        # else:
+    #     user = CustomUser(first_name=first_name, last_name=last_name, phone=phone,
+    #                       address=address, city=city, state=state, zip_code=zip_code, id=id)
+    #     user.save()
+    #     messages.success(request, "Data updated Successfully..!")
+    # return redirect(user_profile)
+
+# ---------------- user profile (end) ----------------
 
     # def post(self, request):
     #     if request.method == "POST":

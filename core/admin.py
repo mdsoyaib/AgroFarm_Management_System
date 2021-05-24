@@ -8,7 +8,10 @@ from core.models import InhouseProduct, Instrument, Worker, Expenses, \
 admin.site.site_title = "AgroFarm"
 admin.site.site_header = "AgroFarm Admin Panel"
 
-admin.site.register(CustomUser)
+
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('email', 'first_name', 'last_name', 'email', 'phone', 'city')
 
 
 @admin.register(InhouseProduct)
