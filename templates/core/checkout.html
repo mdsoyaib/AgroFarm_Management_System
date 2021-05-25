@@ -29,20 +29,23 @@ GreenAgro Checkout
     <div class="container">
         <div class="checkout__form">
             <h4>Billing Details</h4>
-            <form action="#">
+            <form method="post" enctype="multipart/form-data" action="/insert_order/">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Fist Name<span>*</span></p>
-                                    <input type="text" value="{{user.first_name}}" style="color: #6f6f6f;">
+                                    <input type="text" value="{{user.first_name}}" style="color: #6f6f6f;"
+                                           name="first_name">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Last Name<span>*</span></p>
-                                    <input type="text" value="{{user.last_name}}" style="color: #6f6f6f;">
+                                    <input type="text" value="{{user.last_name}}" style="color: #6f6f6f;"
+                                           name="last_name">
                                 </div>
                             </div>
                         </div>
@@ -73,7 +76,7 @@ GreenAgro Checkout
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text" value="{{user.email}}" style="color: #6f6f6f;">
+                                    <input name="email" type="text" value="{{user.email}}" style="color: #6f6f6f;">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -85,33 +88,34 @@ GreenAgro Checkout
                     </div>
 
                     <div class="col-lg-4 col-md-6">
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="checkout__order">
-                                <h4>Your Order</h4>
-                                <div class="checkout__order__products">Products <span>Total</span></div>
-                                {% for item in cart %}
-                                {% with product=item.product %}
-                                <ul>
-                                    <li>{{product.name}} <span>{{item.total_price}} TK</span></li>
-                                </ul>
-                                {% endwith %}
-                                {% endfor %}
-                                <div class="checkout__order__subtotal">Subtotal
-                                    <span>{{ cart.get_total_price }} TK</span></div>
-                                <div class="checkout__order__total">Total <span>{{ cart.get_total_price }} TK</span>
-                                </div>
-                                <p>Payment method will be cash on delivery.</p>
-                                <div class="checkout__input__checkbox">
-                                    <label for="acc-or">
-                                        *Agree with the terms and condition?
-                                        <input type="checkbox" id="acc-or">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <button type="submit" class="site-btn">PLACE ORDER</button>
+
+                        <div class="checkout__order">
+                            <h4>Your Order</h4>
+                            <div class="checkout__order__products">Products <span>Total</span></div>
+                            {% for item in cart %}
+                            {% with product=item.product %}
+                            <ul>
+                                <li><input style="border: none; color: #6f6f6f;" type="text" value="{{product.name}}"
+                                           name="product_name"><span>{{item.total_price}} TK</span></li>
+                            </ul>
+                            {% endwith %}
+                            {% endfor %}
+                            <div class="checkout__order__subtotal">Subtotal
+                                <span>{{ cart.get_total_price }} TK</span></div>
+                            <div class="checkout__order__total">Total <span>{{cart.get_total_price}} TK</span>
                             </div>
-                        </form>
+                            <input type="hidden" name="total_price" value="{{ cart.get_total_price }}">
+                            <p>Payment method will be cash on delivery.</p>
+                            <div class="checkout__input__checkbox">
+                                <label for="acc-or">
+                                    *Agree with the terms and condition?
+                                    <input type="checkbox" id="acc-or">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                        </div>
+
                     </div>
                 </div>
             </form>

@@ -15,7 +15,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View, generic
 
 from core.forms import SignUpForm
-from core.models import Product, WebsiteInfo, CustomUser, Order
+from core.models import Product, WebsiteInfo, CustomUser, Order, TestOrder, OrderDetail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .cart import Cart
 from .forms import CartAddProductForm
@@ -32,10 +32,31 @@ class AboutUs(View):
         return render(request, 'core/about_us.html', {"info": info})
 
 
-class Checkout(View):
-    def get(self, request):
+# class Checkout(View):
+def checkout(request):
+    cart = Cart(request)
+    return render(request, 'core/checkout.html', {'cart': cart})
+
+
+def insert_order(request):
+    if request.method == "POST":
+        total_price = request.POST["total_price"]
+        email = request.POST["email"]
+        # user = request.user.id
+        # print(request.POST)
+        order = Order(total_price=total_price, user=email)
+        order.save()
+        # print(order.id)
+
         cart = Cart(request)
-        return render(request, 'core/checkout.html', {'cart': cart})
+        for item in cart:
+            # order = item['order']
+            product = item['product']
+            quantity = item['quantity']
+            price = item['total_price']
+            order_details = OrderDetail(quantity=quantity, price=price, product=product)
+            order_details.save()
+    return redirect(checkout)
 
 
 class Contact(View):

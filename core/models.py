@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
+
 # Create your models here.
 
 
@@ -59,9 +60,9 @@ class InhouseStock(models.Model):
 #     stock.current_stock = stock.stock_in - out.stock_out
 #     stock.save()
 
-    # def updated_stock(self):
-    #         self.current_stock = 10
-    #         return self.current_stock
+# def updated_stock(self):
+#         self.current_stock = 10
+#         return self.current_stock
 
 
 class Instrument(models.Model):
@@ -158,7 +159,8 @@ class Product(models.Model):
         max_length=50,
         choices=category,
     )
-    product_image = models.ImageField(null=True, blank=True, default='/core/images/default.png', upload_to='core/images')
+    product_image = models.ImageField(null=True, blank=True, default='/core/images/default.png',
+                                      upload_to='core/images')
     active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
     created_at = models.DateTimeField('date time created at', auto_now_add=True)
@@ -195,7 +197,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("user must have an email address")
 
-        user = self.model(email=self.normalize_email(email),)
+        user = self.model(email=self.normalize_email(email), )
 
         user.set_password(password)
         user.save(using=self._db)
@@ -249,25 +251,26 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class Order(models.Model):
     status = (
-        ("PENDING", "Pending"),
-        ("ACCEPTED", "Accepted"),
-        ("CANCELED", "Canceled"),
-        ("DELIVERED", "Delivered"),
+        ("Pending", "Pending"),
+        ("Accepted", "Accepted"),
+        ("Canceled", "Canceled"),
+        ("Delivered", "Delivered"),
     )
-    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    # customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.EmailField(max_length=255, null=True, blank=True)
     order_date = models.DateField(auto_now_add=True)
     order_time = models.TimeField(auto_now_add=True)
-    total_price = models.PositiveIntegerField()
-    status = models.CharField(max_length=50, default='Pending', choices=status)
+    total_price = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, default='Pending', choices=status, auto_created=True)
     created_at = models.DateTimeField('date time created at', auto_now_add=True)
     updated_at = models.DateTimeField('date time updated at', auto_now=True)
 
 
 class OrderDetail(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField()
-    price = models.PositiveIntegerField()
+    price = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField('date time created at', auto_now_add=True)
     updated_at = models.DateTimeField('date time updated at', auto_now=True)
 
@@ -299,3 +302,9 @@ class WebsiteInfo(models.Model):
 #         if self.salary & self.bonus:
 #             self.total_salary = self.salary + self.bonus
 #         return super(Salary, self).save(*args, **kwargs)
+
+
+class TestOrder(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    # customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
