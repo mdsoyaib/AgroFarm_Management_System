@@ -283,3 +283,5 @@ def cart_detail(request):
     return render(request, 'core/shopping_cart.html', {'cart': cart})
 
 # ----------------for cart-----------------
+
+##comment
