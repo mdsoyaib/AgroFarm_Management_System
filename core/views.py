@@ -50,11 +50,10 @@ def insert_order(request):
 
         cart = Cart(request)
         for item in cart:
-            # order = item['order']
             product = item['product']
             quantity = item['quantity']
             price = item['total_price']
-            order_details = OrderDetail(quantity=quantity, price=price, product=product)
+            order_details = OrderDetail(quantity=quantity, price=price, product=product, order=order)
             order_details.save()
     return redirect(checkout)
 
