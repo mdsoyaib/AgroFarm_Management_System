@@ -240,7 +240,7 @@ class Search(View):
 
 class OrderHistory(View):
     def get(self, request):
-        orders = Order.objects.filter()
+        orders = Order.objects.filter().order_by('-id')
         return render(request, 'core/order_history.html', {'orders': orders})
 
 
