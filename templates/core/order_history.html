@@ -55,7 +55,7 @@
             {% if user == orders.customer %}
 
             <tr>
-                <th scope="row">GA{{orders.pk}}</th>
+                <th scope="row"><a style="color: black;" href="/order_history/{{orders.id}}">GA{{orders.pk}}</a></th>
                 <td>{{orders.order_date}}</td>
                 <td>{{orders.order_time}}</td>
                 <td>{{orders.total_price}} TK</td>

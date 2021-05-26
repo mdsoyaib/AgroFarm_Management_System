@@ -58,7 +58,7 @@ urlpatterns = [
     path('search/', views.Search.as_view(), name="category"),
 
     path('order_history/', views.OrderHistory.as_view(), name="order_history"),
-    path('order_details/', views.OrderDetails.as_view(), name="order_details"),
+    path('order_history/<int:pk>', views.OrderDetails.as_view(), name="order_history"),
 
     path('cart/', views.cart_detail, name='cart_detail'),
     path('add/<int:product_id>/', views.cart_add, name='cart_add'),

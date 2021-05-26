@@ -237,6 +237,8 @@ class Search(View):
             p = paginator.page(paginator.num_pages)
         return render(request, 'core/search.html', {'product': p})
 
+# ------------ for Order History -----------------
+
 
 class OrderHistory(View):
     def get(self, request):
@@ -245,9 +247,12 @@ class OrderHistory(View):
 
 
 class OrderDetails(View):
-    def get(self, request):
-        return render(request, 'core/order_details.html')
+    def get(self, request, pk):
+        orders = Order.objects.get(pk=pk)
+        history = OrderDetail.objects.all()
+        return render(request, 'core/order_details.html', {'history': history, 'orders': orders})
 
+# ------------ for Order History -----------------
 
 # ----------------for cart-----------------
 
