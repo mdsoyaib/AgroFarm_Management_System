@@ -39,24 +39,26 @@ def checkout(request):
 
 
 def insert_order(request):
+    cart = Cart(request)
     if request.method == "POST":
         total_price = request.POST["total_price"]
-        # email = request.POST["email"]
         user = request.user
         # print(request.POST)
-        order = Order(total_price=total_price, customer=user)
-        order.save()
-        # print(order.id)
+        if (total_price == '0'):
+            messages.warning(request, "Sorry! Your cart is empty..!")
+        else:
+            order = Order(total_price=total_price, customer=user)
+            order.save()
+            cart.clear()
+            # print(order.id)
 
-        cart = Cart(request)
-        cart.clear()
-        for item in cart:
-            product = item['product']
-            quantity = item['quantity']
-            price = item['total_price']
-            order_details = OrderDetail(quantity=quantity, price=price, product=product, order=order)
-            order_details.save()
-            messages.success(request, "Your order has been placed successfully..!")
+            for item in cart:
+                product = item['product']
+                quantity = item['quantity']
+                price = item['total_price']
+                order_details = OrderDetail(quantity=quantity, price=price, product=product, order=order)
+                order_details.save()
+                messages.success(request, "Your order has been placed successfully..!")
     return redirect(checkout)
 
 
@@ -120,26 +122,25 @@ def user_profile(request):
     return render(request, 'core/user_profile.html')
 
 
-# def update_profile(request, id):
-#     if request.method == "POST":
-#         first_name = request.POST['first_name']
-#         last_name = request.POST['last_name']
-#         phone = request.POST['phone']
-#         address = request.POST['inputAddress']
-#         city = request.POST['inputCity']
-#         state = request.POST['inputAddress2']
-#         zip_code = request.POST['inputZip']
+def update_profile(request, id):
+    if request.method == "POST":
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        phone = request.POST['phone']
+        address = request.POST['inputAddress']
+        city = request.POST['inputCity']
+        state = request.POST['inputAddress2']
+        zip_code = request.POST['inputZip']
 
-        # image = request.FILES['image_file']
-        # if (first_name == '' or last_name == '' or phone == '' or address == ''
-        #         or city == '' or state == '' or zip_code == ''):
-        #     messages.warning(request, "Please fill form Correctly..!")
-        # else:
-    #     user = CustomUser(first_name=first_name, last_name=last_name, phone=phone,
-    #                       address=address, city=city, state=state, zip_code=zip_code, id=id)
-    #     user.save()
-    #     messages.success(request, "Data updated Successfully..!")
-    # return redirect(user_profile)
+        if (first_name == '' or last_name == '' or phone == '' or address == ''
+                or city == '' or state == '' or zip_code == ''):
+            messages.warning(request, "Please fill form Correctly..!")
+        else:
+            user = CustomUser(first_name=first_name, last_name=last_name, phone=phone,
+                              address=address, city=city, state=state, zip_code=zip_code, id=id)
+            user.save()
+            messages.success(request, "Data updated Successfully..!")
+    return redirect(user_profile)
 
 # ---------------- user profile (end) ----------------
 

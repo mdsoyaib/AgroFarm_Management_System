@@ -105,7 +105,7 @@ GreenAgro Checkout
                             {% for item in cart %}
                             {% with product=item.product %}
                             <ul>
-                                <li><input style="border: none; color: #6f6f6f;" type="text" value="{{product.name}}"
+                                <li><input disabled style="border: none; color: #6f6f6f;" type="text" value="{{product.name}}"
                                            name="product_name"><span>{{item.total_price}} TK</span></li>
                             </ul>
                             {% endwith %}
