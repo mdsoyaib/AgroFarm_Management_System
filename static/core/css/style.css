@@ -3286,3 +3286,17 @@ form div.field {
     color:#666;
     border-radius:4px;
 }
+
+.table .thead-dark tr th {
+    text-align: center;
+}
+
+.table .order-history-tbody tr th {
+    text-align: center;
+    font-size: 15px;
+}
+
+.table .order-history-tbody tr td {
+    text-align: center;
+    font-size: 15px;
+}

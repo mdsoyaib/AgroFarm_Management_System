@@ -39,7 +39,7 @@
         </div>
     </div>
     <div>
-        <table class="table table-hover" style="text-align: center;">
+        <table class="table table-hover">
             <thead class="thead-dark" style="color: white;">
             <tr style="font-weight: bold;">
                 <th scope="col">Order ID</th>
@@ -49,42 +49,44 @@
                 <th scope="col">Order Status</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="order-history-tbody">
+            {% for orders in orders %}
             <tr>
-                <th scope="row">GA01</th>
-                <td>April 26, 2021</td>
-                <td>10:00pm</td>
-                <td>2700 TK</td>
-                <td>Pending</td>
+                <th scope="row">GA{{orders.pk}}</th>
+                <td>{{orders.order_date}}</td>
+                <td>{{orders.order_time}}</td>
+                <td>{{orders.total_price}} TK</td>
+                <td>{{orders.status}}</td>
             </tr>
-            <tr>
-                <th scope="row">GA02</th>
-                <td>April 25, 2021</td>
-                <td>11:00pm</td>
-                <td>500 TK</td>
-                <td>Accepted</td>
-            </tr>
-            <tr>
-                <th scope="row">GA03</th>
-                <td>April 24, 2021</td>
-                <td>12:00pm</td>
-                <td>540 TK</td>
-                <td>Delivered</td>
-            </tr>
-            <tr>
-                <th scope="row">GA04</th>
-                <td>April 23, 2021</td>
-                <td>11:00am</td>
-                <td>780 TK</td>
-                <td>Delivered</td>
-            </tr>
-            <tr>
-                <th scope="row">GA05</th>
-                <td>April 20, 2021</td>
-                <td>10:00pm</td>
-                <td>1050 TK</td>
-                <td>Canceled</td>
-            </tr>
+            {% endfor %}
+<!--            <tr>-->
+<!--                <th scope="row">GA02</th>-->
+<!--                <td>April 25, 2021</td>-->
+<!--                <td>11:00pm</td>-->
+<!--                <td>500 TK</td>-->
+<!--                <td>Accepted</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <th scope="row">GA03</th>-->
+<!--                <td>April 24, 2021</td>-->
+<!--                <td>12:00pm</td>-->
+<!--                <td>540 TK</td>-->
+<!--                <td>Delivered</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <th scope="row">GA04</th>-->
+<!--                <td>April 23, 2021</td>-->
+<!--                <td>11:00am</td>-->
+<!--                <td>780 TK</td>-->
+<!--                <td>Delivered</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <th scope="row">GA05</th>-->
+<!--                <td>April 20, 2021</td>-->
+<!--                <td>10:00pm</td>-->
+<!--                <td>1050 TK</td>-->
+<!--                <td>Canceled</td>-->
+<!--            </tr>-->
             </tbody>
         </table>
     </div>

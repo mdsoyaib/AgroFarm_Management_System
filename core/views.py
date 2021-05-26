@@ -49,6 +49,7 @@ def insert_order(request):
         # print(order.id)
 
         cart = Cart(request)
+        cart.clear()
         for item in cart:
             product = item['product']
             quantity = item['quantity']
@@ -238,7 +239,8 @@ class Search(View):
 
 class OrderHistory(View):
     def get(self, request):
-        return render(request, 'core/order_history.html')
+        orders = Order.objects.filter()
+        return render(request, 'core/order_history.html', {'orders': orders})
 
 
 class OrderDetails(View):
