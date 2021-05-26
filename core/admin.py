@@ -96,8 +96,8 @@ class ProductStockAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'order_date', 'order_time', 'total_price', 'status')
-    search_fields = ('user', 'order_date', 'order_time', 'status')
+    list_display = ('customer', 'order_date', 'order_time', 'total_price', 'status')
+    search_fields = ('customer', 'order_date', 'order_time', 'status')
     list_filter = ('status',)
     # readonly_fields = ('buyer', 'order_date', 'order_time')
     list_per_page = 20
@@ -105,8 +105,9 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderDetail)
 class OrderDetailAdmin(admin.ModelAdmin):
-    list_display = ('product', 'quantity', 'price')
+    list_display = ('order', 'product', 'quantity', 'price')
     # readonly_fields = ('order', 'product', 'quantity', 'price')
+    search_fields = ('order',)
     list_per_page = 20
 
 

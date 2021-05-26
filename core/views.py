@@ -41,10 +41,10 @@ def checkout(request):
 def insert_order(request):
     if request.method == "POST":
         total_price = request.POST["total_price"]
-        email = request.POST["email"]
-        # user = request.user.id
+        # email = request.POST["email"]
+        user = request.user
         # print(request.POST)
-        order = Order(total_price=total_price, user=email)
+        order = Order(total_price=total_price, customer=user)
         order.save()
         # print(order.id)
 
@@ -283,5 +283,3 @@ def cart_detail(request):
     return render(request, 'core/shopping_cart.html', {'cart': cart})
 
 # ----------------for cart-----------------
-
-##comment

@@ -256,14 +256,17 @@ class Order(models.Model):
         ("Canceled", "Canceled"),
         ("Delivered", "Delivered"),
     )
-    # customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    user = models.EmailField(max_length=255, null=True, blank=True)
+    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    # user = models.EmailField(max_length=255, null=True, blank=True)
     order_date = models.DateField(auto_now_add=True)
     order_time = models.TimeField(auto_now_add=True)
     total_price = models.CharField(max_length=50)
     status = models.CharField(max_length=50, default='Pending', choices=status, auto_created=True)
     created_at = models.DateTimeField('date time created at', auto_now_add=True)
     updated_at = models.DateTimeField('date time updated at', auto_now=True)
+
+    def __str__(self):
+        return f"{self.pk}"
 
 
 class OrderDetail(models.Model):
