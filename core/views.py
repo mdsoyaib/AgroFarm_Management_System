@@ -55,6 +55,7 @@ def insert_order(request):
             price = item['total_price']
             order_details = OrderDetail(quantity=quantity, price=price, product=product, order=order)
             order_details.save()
+            messages.success(request, "Your order has been placed successfully..!")
     return redirect(checkout)
 
 
@@ -156,13 +157,10 @@ def user_profile(request):
     #         user.save()
     #     return render(request, 'core/user_profile.html')
 
-
-
 # class DesktopNav(View):
 #     def get(self, request):
 #         user = CustomUser.objects.all()
 #         return render(request, 'core/desktopNav.html', {'user': user})
-
 
 class Signup(View):
     def get(self, request):
