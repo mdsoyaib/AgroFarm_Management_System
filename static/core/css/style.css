@@ -1547,6 +1547,10 @@ ol {
 	margin-bottom: 15px;
 }
 
+.product__details__text .product__details__price a {
+    color: #808080
+}
+
 .product__details__text p {
 	margin-bottom: 45px;
 }

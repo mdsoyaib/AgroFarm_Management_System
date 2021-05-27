@@ -136,10 +136,11 @@ class Expenses(models.Model):
 
 class Product(models.Model):
     unit_type = (
-        ("KILOGRAM", "Kilogram"),
-        ("LITER", "Liter"),
-        ("PIECE", "Piece"),
-        ("CUSTOM", "Custom"),
+        ("Kilogram", "Kilogram"),
+        ("Liter", "Liter"),
+        ("Dozen", "Dozen"),
+        ("Piece", "Piece"),
+        ("Custom", "Custom"),
     )
     category = (
         ("FRUIT", "Fruit"),
