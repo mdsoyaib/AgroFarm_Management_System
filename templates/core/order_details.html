@@ -51,6 +51,7 @@
             <tr style="font-weight: bold;">
                 <th scope="col">Product Name</th>
                 <th scope="col">Product Quantity</th>
+                <th scope="col">Unit Price</th>
                 <th scope="col">Total Price</th>
             </tr>
             </thead>
@@ -61,6 +62,7 @@
             <tr>
                 <th scope="row">{{history.product}}</th>
                 <td>{{history.quantity}}</td>
+                <td>{{history.product.price_per_unit}}</td>
                 <td>{{history.price}} TK</td>
             </tr>
             {% endif %}

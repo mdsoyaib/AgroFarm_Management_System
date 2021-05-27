@@ -248,9 +248,10 @@ class OrderHistory(View):
 
 class OrderDetails(View):
     def get(self, request, pk):
+        product = Product.objects.all()
         orders = Order.objects.get(pk=pk)
         history = OrderDetail.objects.all()
-        return render(request, 'core/order_details.html', {'history': history, 'orders': orders})
+        return render(request, 'core/order_details.html', {'history': history, 'orders': orders, 'product': product})
 
 # ------------ for Order History -----------------
 
