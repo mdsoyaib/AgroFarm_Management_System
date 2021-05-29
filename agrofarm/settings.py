@@ -221,7 +221,7 @@ BATON = {
         {'type': 'free', 'label': 'Manage Orders', 'icon': 'fas fa-shopping-cart', 'default_open': False, 'children': [
             {'type': 'free', 'label': ' View Orders', 'url': 'http://127.0.0.1:8000/admin/core/order/'},
             {'type': 'free', 'label': ' View Order Details', 'url': 'http://127.0.0.1:8000/admin/core/orderdetail/'},
-            {'type': 'free', 'label': ' Update Order Status', 'url': '#'},
+            {'type': 'free', 'label': ' Order Report', 'url': '/order_report/'},
         ]},
 
         {'type': 'title', 'label': 'Custom Management', 'icon': 'fas fa-cogs', 'apps': ('auth', )},

@@ -35,6 +35,13 @@ class AboutUs(View):
 # class Checkout(View):
 def checkout(request):
     cart = Cart(request)
+    # print(request.session['cart'])
+    # print(len(cart))
+    # if len(cart) > 0:
+    #
+    #     return render(request, 'core/checkout.html', {'cart': cart})
+    # else:
+    #     messages.warning(request, "Sorry! Your cart is empty..!")
     return render(request, 'core/checkout.html', {'cart': cart})
 
 
@@ -44,6 +51,10 @@ def insert_order(request):
         total_price = request.POST["total_price"]
         user = request.user
         # print(request.POST)
+        # print(request.session['cart'])
+        # checkcart = request.session['cart']
+        # if checkcart == {}:
+        #     return redirect()
         if (total_price == '0'):
             messages.warning(request, "Sorry! Your cart is empty..!")
         else:
@@ -254,6 +265,13 @@ class OrderDetails(View):
         return render(request, 'core/order_details.html', {'history': history, 'orders': orders, 'product': product})
 
 # ------------ for Order History -----------------
+
+
+class OrderReport(View):
+    def get(self, request):
+        orders = Order.objects.all().order_by('-id')
+        # pdfcreator
+        return render(request, 'core/order_report.html', {'orders': orders})
 
 # ----------------for cart-----------------
 
