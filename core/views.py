@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
@@ -19,6 +21,8 @@ from core.models import Product, WebsiteInfo, CustomUser, Order, TestOrder, Orde
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .cart import Cart
 from .forms import CartAddProductForm
+from django.conf import settings
+from .pdf import pdf_creator
 
 
 class Base(View):
@@ -269,9 +273,62 @@ class OrderDetails(View):
 
 class OrderReport(View):
     def get(self, request):
-        orders = Order.objects.all().order_by('-id')
+        # orders = Order.objects.all().order_by('-id')
         # pdfcreator
+        # if request.method == "POST":
+        #     from_date = request.POST.get("from_date")
+        #     to_date = request.POST.get("to_date")
+        #     search = Order.objects.raw('select pk, customer, order_date, order_time, status from order where order_date between "'+from_date+'" and "'+to_date+'"')
+        #     return render(request, 'core/order_report.html', {'orders': search})
+        # else:
+        orders = Order.objects.all().order_by('-id')
+
         return render(request, 'core/order_report.html', {'orders': orders})
+
+
+# import io
+# from xhtml2pdf import pisa
+# from django.template.loader import get_template
+# from django.template import Context
+#
+# def render_to_pdf(template_src, context_dict):
+#     template = get_template(template_src)
+#     html = template.render(context_dict)
+#     result = io.BytesIO()
+#     pdf = pisa.pisaDocument(io.BytesIO(html.encode("ISO-8859-1")), result)
+#     if not pdf.err:
+#         return HttpResponse(result.getvalue(), content_type='application/pdf')
+#     return
+
+def PdfOrderReport(request, pk):
+    product = Product.objects.all()
+    orders = Order.objects.get(pk=pk)
+    history = OrderDetail.objects.all()
+    # pdf_creator()
+
+    # dict = {
+    #     'first_name': orders.customer.first_name,
+    #     'last_name': orders.customer.last_name,
+    #     'email': orders.customer.email,
+    #     'phone': orders.customer.phone,
+    #     'product': history.product,
+    #     'quantity': history.quantity,
+    #     'price_per_unit': history.product.price_per_unit,
+    #     'price': history.price,
+    #     'pk': orders.pk,
+    #     'order_date': orders.order_date,
+    #     'order_time': orders.order_time,
+    #     'total_price': orders.total_price,
+    # }
+    # return render_to_pdf('core/pdf_order_report.html', dict)
+    return render(request, 'core/pdf_order_report.html', {'history': history, 'orders': orders, 'product': product})
+
+
+class UserInfo(View):
+    def get(self, request, pk):
+        user = CustomUser.objects.get(pk=pk)
+        orders = Order.objects.all().order_by('-id')
+        return render(request, 'core/user_info.html', {'user': user, 'orders': orders})
 
 # ----------------for cart-----------------
 
@@ -308,3 +365,20 @@ def cart_detail(request):
     return render(request, 'core/shopping_cart.html', {'cart': cart})
 
 # ----------------for cart-----------------
+
+
+def create_pdf(request):
+    host = 'http://' + settings.ALLOWED_HOSTS[0] + ':8000'
+    partial_url = request.POST.get('url', '')
+    output = partial_url.split('/')[-1]
+    url = host + partial_url
+    pdf_creator(url, output)
+    # return HttpResponse(url)
+    # return redirect(url)
+
+    file_path = os.path.join(settings.BASE_DIR, output + '.pdf')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response

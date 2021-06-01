@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Report Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/static/core/img/favicon.png" type="image/gif/png" sizes="16x16">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Audiowide&family=Baumans&family=Montserrat+Alternates:wght@600&family=Orbitron:wght@500&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/core/css/style.css">
+
+    <style>
+        .delivered__to tr td{
+            font-size: 15px;
+        }
+        .ordered__items thead tr th{
+            text-align: center;
+            font-size: 15px;
+        }
+        .ordered__items tbody tr td{
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .order__summary tbody tr td{
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div style="float: right; padding-right: 40px; padding-top: 10px;">
+    <form action="{% url 'create_pdf' %}" method="post">
+    {% csrf_token %}
+    <input id="url" name="url" value="{{ request.get_full_path }}" type="hidden" class="query-search">
+    <input class="btn btn-primary" type="submit" value="Create Pdf">
+    </form>
+    </div>
+    <div style="margin: auto; width: 60%;">
+        <h2 style="text-align: center; padding: 10px 0px; font-weight: bold;">GreenAgro</h2>
+        <h5 style="padding-bottom: 5px;">Delivered To:</h5>
+        <table class="delivered__to" style="border: 1px black solid;">
+
+            <tr>
+                <td style="padding: 5px;">
+                    Buyer Name: {{orders.customer.first_name}} {{orders.customer.last_name}}<br>
+                    Email: {{orders.customer.email}} <br>
+                    Phone Number: {{orders.customer.phone}}<br>
+                    City:          <br>
+                    State:          <br>
+                    Address:
+                </td>
+            </tr>
+
+        </table>
+        <h5 style="padding: 20px 0px 5px 0px;">Ordered Items:</h5>
+        <table class="ordered__items table table-hover" style="border: 1px black solid;">
+            <thead class="thead-dark" style="background-color: black;">
+                <tr style="background-color: black; color: white; padding-top: 5px;">
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for details in history %}
+                {% if orders == details.order %}
+                <tr>
+                    <td>{{details.product}}</td>
+                    <td>{{details.quantity}}</td>
+                    <td>{{details.product.price_per_unit}}</td>
+                    <td>{{details.price}} TK</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <h5 style="padding: 5px 0px;">Order Summary:</h5>
+        <table class="order__summary" style="border: 1px black solid;">
+            <tbody>
+                <tr>
+                    <td style="font-weight: bold; padding: 5px;">
+                        Order ID <br>
+                        Order Date <br>
+                        Order Time <br>
+                        Total Price
+                    </td>
+                    <td style="font-weight: bold; text-align: center;">
+                        GA{{orders.pk}} <br>
+                        {{orders.order_date}} <br>
+                        {{orders.order_time}} <br>
+                        {{orders.total_price}} TK
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5 style="padding: 15px 0px;">Buyer Signature: </h5>
+    </div>
+
+</body>
+</html>

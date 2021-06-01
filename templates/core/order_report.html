@@ -40,24 +40,39 @@
         </div>
     </div>
 <!--    for search orders-->
-    <div class="row" style="width: 60%;">
-        <div class="form-group col-sm">
-            <label for="from"> Date from:</label>
-            <input style="width: 80%;" value="{{orders.created_at}}" id="from" type="date" class="form-control"
-                   name="from_date">
-        </div>
-        <div class="form-group col-sm">
-            <label for="to"> Date to:</label>
-            <input style="width: 80%;" value="{{orders.created_at}}" id="to" type="date" class="form-control"
-                   name="to_date">
-        </div>
-        <div style="padding: 30px 0px;" class="form-group col-sm">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </div>
+<!--    <div class="row" style="width: 60%;">-->
+<!--        <div class="form-group col-sm">-->
+<!--            <label for="from"> Date from:</label>-->
+<!--            <input style="width: 80%;" value="{{orders.created_at}}" id="from" type="date" class="form-control"-->
+<!--                   name="from_date">-->
+<!--        </div>-->
+<!--        <div class="form-group col-sm">-->
+<!--            <label for="to"> Date to:</label>-->
+<!--            <input style="width: 80%;" value="{{orders.created_at}}" id="to" type="date" class="form-control"-->
+<!--                   name="to_date">-->
+<!--        </div>-->
+<!--        <div style="padding: 30px 0px;" class="form-group col-sm">-->
+<!--            <button type="submit" class="btn btn-primary">Search</button>-->
+<!--        </div>-->
+<!--    </div>-->
 <!--for search orders end    -->
 
-    <div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row" style="width: 60%;">
+            <div class="form-group col-sm">
+                <label> From Date:</label>
+                <input type="date" name="from_date" value="{{orders.created_at}}">
+            </div>
+            <div class="form-group col-sm">
+                <label> To Date:</label>
+                <input type="date" name="to_date" value="{{orders.created_at}}">
+            </div>
+            <div class="form-group col-sm" style="padding: 25px 0px;">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+
         <table class="table table-hover">
             <thead class="thead-dark" style="color: white;">
             <tr style="font-weight: bold;">
@@ -81,14 +96,14 @@
                 <td>{{orders.total_price}} TK</td>
                 <td>{{orders.status}}</td>
                 <td>
-                    <button type="submit" class="btn btn-success">Print</button>
+                    <button type="submit" class="btn btn-success"><a style="color: white;" href="/order_report/{{orders.id}}">Print</a></button>
                 </td>
             </tr>
             {% endfor %}
 
             </tbody>
         </table>
-    </div>
+    </form>
 </div>
 
 <!-- Footer Section Begin -->

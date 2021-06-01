@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/static/core/img/favicon.png" type="image/gif/png" sizes="16x16">
+    <link rel="stylesheet" type="text/css" href="/static/core/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Audiowide&family=Baumans&family=Montserrat+Alternates:wght@600&family=Orbitron:wght@500&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/core/css/style.css">
+</head>
+<body>
+    <div style="width: 30%; margin: auto; padding-top: 20px;">
+        <img src="/media/{{user.profile_image}}" style="border-radius: 50%;">
+        <table>
+            <tr>
+                <td>
+                    User Name: {{orders.customer.first_name}} {{orders.customer.last_name}} <br>
+                    Email: {{orders.customer.email}} <br>
+                    Phone: {{orders.customer.phone}} <br>
+                    Address: {{orders.customer.address}} <br>
+                    City: {{orders.customer.city}} <br>
+                    State: {{orders.customer.state}} <br>
+                </td>
+            </tr>
+
+
+        </table>
+    </div>
+</body>
+</html>
