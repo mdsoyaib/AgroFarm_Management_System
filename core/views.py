@@ -282,6 +282,14 @@ class OrderReport(View):
         #     return render(request, 'core/order_report.html', {'orders': search})
         # else:
         orders = Order.objects.all().order_by('-id')
+        paginator = Paginator(orders, 12)
+        page = request.GET.get("page")
+        try:
+            orders = paginator.page(page)
+        except PageNotAnInteger:
+            orders = paginator.page(1)
+        except EmptyPage:
+            orders = paginator.page(paginator.num_pages)
 
         return render(request, 'core/order_report.html', {'orders': orders})
 
@@ -322,6 +330,23 @@ def PdfOrderReport(request, pk):
     # }
     # return render_to_pdf('core/pdf_order_report.html', dict)
     return render(request, 'core/pdf_order_report.html', {'history': history, 'orders': orders, 'product': product})
+
+
+def create_pdf(request):
+    host = 'http://' + settings.ALLOWED_HOSTS[0] + ':8000'
+    partial_url = request.POST.get('url', '')
+    output = partial_url.split('/')[-1]
+    url = host + partial_url
+    pdf_creator(url, output)
+    # return HttpResponse(url)
+    # return redirect(url)
+
+    file_path = os.path.join(settings.BASE_DIR, output + '.pdf')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
 
 
 class UserInfo(View):
@@ -367,18 +392,5 @@ def cart_detail(request):
 # ----------------for cart-----------------
 
 
-def create_pdf(request):
-    host = 'http://' + settings.ALLOWED_HOSTS[0] + ':8000'
-    partial_url = request.POST.get('url', '')
-    output = partial_url.split('/')[-1]
-    url = host + partial_url
-    pdf_creator(url, output)
-    # return HttpResponse(url)
-    # return redirect(url)
-
-    file_path = os.path.join(settings.BASE_DIR, output + '.pdf')
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/pdf")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
+def payment(request):
+    return render(request, 'core/payment.html')

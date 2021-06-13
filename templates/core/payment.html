@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+
+{% block title %}
+GreenAgro Payment
+{% endblock title %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="row">
+        <div style="width: 40%; margin: auto; padding-bottom: 50px;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="radio" id="cash" name="gender" value="cash">
+                <label for="cash">Cash On Delivery</label><br>
+                <input type="radio" id="bkash" name="gender" value="bkash">
+                <label for="bkash">BKASH</label><br>
+                <h5 style="padding: 5px 0px;">Step by step process for bkash payment:</h5>
+                <h6>1. dial *247#</h6>
+                <h6>2. Select Payment</h6>
+                <h6>3. Enter Marchent bkash account no: 01755555555</h6>
+                <h6>3. Enter total amount</h6>
+                <h6 style="color: red;">[Note: Enter the right amount. Otherwise your order may canceled.]</h6>
+                <h6>4. Enter Reference: 1</h6>
+                <h6>4. Enter your password</h6>
+                <h5 style="padding: 5px 0px;">Enter the phone number and transaction id from which you have done your payment:</h5>
+                <div class="form-group" style="padding-top: 10px;">
+                    <label for="number">Phone Number:</label>
+                    <input type="text" class="form-control" id="number" name="number" placeholder="Enter Phone Number">
+                </div>
+                <div class="form-group">
+                    <label for="trxid">Transaction ID:</label>
+                    <input type="text" class="form-control" id="trxid" name="trxid" placeholder="Enter Transaction ID">
+                </div>
+                <button type="submit" class="site-btn" style="width: 30%; margin-left: 35%;">Payment</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% else %}
+    <p style="color: red; text-align: center; padding: 50px 0px;">You are not logged in.</p>
+{% endif %}
+
+{% endblock content %}

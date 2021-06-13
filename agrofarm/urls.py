@@ -61,11 +61,13 @@ urlpatterns = [
     path('order_history/<int:pk>', views.OrderDetails.as_view(), name="order_history"),
     path('order_report/', views.OrderReport.as_view(), name="order_report"),
     path('order_report/<int:pk>', views.PdfOrderReport, name="pdf_order_report"),
+    path('create_pdf/', views.create_pdf, name='create_pdf'),
     path('user_info/<int:pk>', views.UserInfo.as_view(), name="user_info"),
 
     path('cart/', views.cart_detail, name='cart_detail'),
     path('add/<int:product_id>/', views.cart_add, name='cart_add'),
     path('remove/<int:product_id>/', views.cart_remove, name='cart_remove'),
-    path('create_pdf/', views.create_pdf, name='create_pdf'),
+
+    path('payment/', views.payment, name='payment'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
