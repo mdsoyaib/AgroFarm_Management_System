@@ -61,7 +61,13 @@ GreenAgro Product Details
                     <!------ add to cart with quantity (end) ---------->
 
                     <ul>
+                        {% if product.quantity == 0 %}
+                        <li><b>Availability</b> <span style="color: red;">Stock Out!</span></li>
+                        {% else %}
                         <li><b>Availability</b> <span>In Stock</span></li>
+                        {% endif %}
+
+                        <li><b>Available Stock</b> <span>{{product.quantity}} {{product.unit_type}}</span></li>
                         <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
                         <li><b>Category</b> <span>{{product.category}}</span></li>
                         <li><b>Weight</b> <span>{{product.unit_type}}</span></li>

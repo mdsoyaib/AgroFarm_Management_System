@@ -23,7 +23,7 @@ from .cart import Cart
 from .forms import CartAddProductForm
 from django.conf import settings
 from .pdf import pdf_creator
-
+from django.db.models import F
 
 class Base(View):
     def get(self, request):
@@ -73,6 +73,16 @@ def insert_order(request):
                 price = item['total_price']
                 order_details = OrderDetail(quantity=quantity, price=price, product=product, order=order)
                 order_details.save()
+                # find product by id
+                # print(item)
+                Product.objects.filter(id=item['id']).update(quantity=F('quantity')-item['quantity'])
+
+
+                # update product qauntity old_qyt - cartqyt
+                # order_item = item['product']
+                # update = Product.objects.get(id=id)
+                # update.quantity = update.quantity - item.quantity
+                # update.save()
                 messages.success(request, "Your order has been placed successfully..!")
     return redirect(checkout)
 
@@ -282,6 +292,11 @@ class OrderReport(View):
         #     return render(request, 'core/order_report.html', {'orders': search})
         # else:
         orders = Order.objects.all().order_by('-id')
+
+        # if request.method=="POST":
+        #     date = Order.objects.filter(from_date=orders.created_at, to_date=orders.created_at)
+        #     return render(request, 'core/order_report.html', {'date': date})
+
         paginator = Paginator(orders, 12)
         page = request.GET.get("page")
         try:

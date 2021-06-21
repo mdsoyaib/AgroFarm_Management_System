@@ -63,7 +63,7 @@ class ExpensesAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price_per_unit', 'unit_type', 'category', 'product_image', 'active', 'featured')
+    list_display = ('name', 'price_per_unit', 'quantity', 'unit_type', 'category', 'product_image', 'active', 'featured')
     list_filter = ('unit_type', 'category', 'active', 'featured')
     search_fields = ('name', 'category', 'unit_type')
     list_per_page = 20

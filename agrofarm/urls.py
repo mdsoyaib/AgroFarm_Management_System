@@ -59,9 +59,11 @@ urlpatterns = [
 
     path('order_history/', views.OrderHistory.as_view(), name="order_history"),
     path('order_history/<int:pk>', views.OrderDetails.as_view(), name="order_history"),
+
     path('order_report/', views.OrderReport.as_view(), name="order_report"),
     path('order_report/<int:pk>', views.PdfOrderReport, name="pdf_order_report"),
     path('create_pdf/', views.create_pdf, name='create_pdf'),
+
     path('user_info/<int:pk>', views.UserInfo.as_view(), name="user_info"),
 
     path('cart/', views.cart_detail, name='cart_detail'),

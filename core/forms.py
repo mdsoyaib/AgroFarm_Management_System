@@ -10,7 +10,7 @@ class SignUpForm(UserCreationForm):
         fields = ('email', 'first_name', 'last_name', 'profile_image', 'phone')
 
 
-PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 11)]
+PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 16)]
 
 
 class CartAddProductForm(forms.Form):
