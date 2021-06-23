@@ -339,6 +339,7 @@ def PdfOrderReport(request, pk):
     product = Product.objects.all()
     orders = Order.objects.get(pk=pk)
     history = OrderDetail.objects.all()
+    billing = BillingInfo.objects.all()
     # pdf_creator()
 
     # dict = {
@@ -356,7 +357,7 @@ def PdfOrderReport(request, pk):
     #     'total_price': orders.total_price,
     # }
     # return render_to_pdf('core/pdf_order_report.html', dict)
-    return render(request, 'core/pdf_order_report.html', {'history': history, 'orders': orders, 'product': product})
+    return render(request, 'core/pdf_order_report.html', {'history': history, 'orders': orders, 'product': product, 'billing': billing})
 
 
 def create_pdf(request):

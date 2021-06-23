@@ -48,9 +48,15 @@
                     Buyer Name: {{orders.customer.first_name}} {{orders.customer.last_name}}<br>
                     Email: {{orders.customer.email}} <br>
                     Phone Number: {{orders.customer.phone}}<br>
-                    City:          <br>
-                    State:          <br>
-                    Address:
+
+                    {% for data in billing %}
+                    {% if orders == data.order %}
+                    City: {{data.city}}<br>
+                    State: {{data.state}}<br>
+                    Address: {{data.address}}<br>
+                    {% endif %}
+                    {% endfor %}
+
                 </td>
             </tr>
 
