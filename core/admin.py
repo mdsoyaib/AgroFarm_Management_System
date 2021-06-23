@@ -1,7 +1,7 @@
 # import form as form
 from django.contrib import admin
 from core.models import InhouseProduct, Instrument, Worker, Expenses, \
-    Product, ProductStock, Order, OrderDetail, CustomUser, WebsiteInfo, InhouseStock, TestOrder
+    Product, ProductStock, Order, OrderDetail, CustomUser, WebsiteInfo, InhouseStock, TestOrder, BillingInfo
 
 # Register your models here.
 
@@ -108,6 +108,15 @@ class OrderDetailAdmin(admin.ModelAdmin):
     list_display = ('order', 'product', 'quantity', 'price')
     # readonly_fields = ('order', 'product', 'quantity', 'price')
     search_fields = ('order',)
+    list_per_page = 20
+
+
+@admin.register(BillingInfo)
+class OrderDetailAdmin(admin.ModelAdmin):
+    list_display = ('order', 'customer', 'first_name', 'last_name', 'phone', 'address',
+                    'city', 'state', 'zip_code')
+    search_fields = ('order', 'customer', 'first_name', 'last_name', 'phone', 'city', 'state')
+    list_filter = ('order', 'customer', 'first_name', 'last_name', 'phone', 'city', 'state')
     list_per_page = 20
 
 

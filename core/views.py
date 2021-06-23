@@ -17,13 +17,14 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View, generic
 
 from core.forms import SignUpForm
-from core.models import Product, WebsiteInfo, CustomUser, Order, TestOrder, OrderDetail
+from core.models import Product, WebsiteInfo, CustomUser, Order, TestOrder, OrderDetail, BillingInfo
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .cart import Cart
 from .forms import CartAddProductForm
 from django.conf import settings
 from .pdf import pdf_creator
 from django.db.models import F
+
 
 class Base(View):
     def get(self, request):
@@ -67,6 +68,18 @@ def insert_order(request):
             cart.clear()
             # print(order.id)
 
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            address=request.POST['address']
+            city = request.POST['city']
+            state = request.POST['state']
+            zip_code = request.POST['zip_code']
+            phone = request.POST['phone']
+
+            billing = BillingInfo(first_name=first_name, last_name=last_name, address=address, city=city,
+                                  state=state, zip_code=zip_code, phone=phone, order=order, customer=user)
+            billing.save()
+
             for item in cart:
                 product = item['product']
                 quantity = item['quantity']
@@ -76,13 +89,8 @@ def insert_order(request):
                 # find product by id
                 # print(item)
                 Product.objects.filter(id=item['id']).update(quantity=F('quantity')-item['quantity'])
-
-
                 # update product qauntity old_qyt - cartqyt
-                # order_item = item['product']
-                # update = Product.objects.get(id=id)
-                # update.quantity = update.quantity - item.quantity
-                # update.save()
+
                 messages.success(request, "Your order has been placed successfully..!")
     return redirect(checkout)
 
@@ -283,7 +291,7 @@ class OrderDetails(View):
 
 class OrderReport(View):
     def get(self, request):
-        # orders = Order.objects.all().order_by('-id')
+        orders = Order.objects.all().order_by('-id')
         # pdfcreator
         # if request.method == "POST":
         #     from_date = request.POST.get("from_date")
@@ -291,10 +299,14 @@ class OrderReport(View):
         #     search = Order.objects.raw('select pk, customer, order_date, order_time, status from order where order_date between "'+from_date+'" and "'+to_date+'"')
         #     return render(request, 'core/order_report.html', {'orders': search})
         # else:
-        orders = Order.objects.all().order_by('-id')
 
         # if request.method=="POST":
-        #     date = Order.objects.filter(from_date=orders.created_at, to_date=orders.created_at)
+        #     from_date = request.POST['from_date']
+        #     to_date = request.POST['to_date']
+        #     try:
+        #         date = Order.objects.filter(order_date__lte=from_date, order_date__gte=to_date)
+        #     except:
+        #         date=None
         #     return render(request, 'core/order_report.html', {'date': date})
 
         paginator = Paginator(orders, 12)
@@ -377,6 +389,7 @@ class UserInfo(View):
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
+
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data

@@ -280,6 +280,18 @@ class OrderDetail(models.Model):
     updated_at = models.DateTimeField('date time updated at', auto_now=True)
 
 
+class BillingInfo(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    first_name = models.CharField(max_length=50, null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    address= models.TextField(null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100, null=True, blank=True)
+    zip_code = models.CharField(max_length=50, null=True, blank=True)
+
+
 class WebsiteInfo(models.Model):
     phone = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
