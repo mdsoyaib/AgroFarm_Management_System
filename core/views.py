@@ -55,30 +55,40 @@ def insert_order(request):
     if request.method == "POST":
         total_price = request.POST["total_price"]
         user = request.user
+
+# -------------billing info-------------------
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        address = request.POST['address']
+        city = request.POST['city']
+        state = request.POST['state']
+        zip_code = request.POST['zip_code']
+        phone = request.POST['phone']
+# -------------billing info------------------
+
         # print(request.POST)
         # print(request.session['cart'])
         # checkcart = request.session['cart']
         # if checkcart == {}:
         #     return redirect()
+
         if (total_price == '0'):
             messages.warning(request, "Sorry! Your cart is empty..!")
+
+        elif address == '' or city == '' or state == '' or phone == '':
+            messages.warning(request, "Please fill-up the billing info properly!")
+            
         else:
             order = Order(total_price=total_price, customer=user)
-            order.save()
-            cart.clear()
+
             # print(order.id)
 
-            first_name = request.POST['first_name']
-            last_name = request.POST['last_name']
-            address=request.POST['address']
-            city = request.POST['city']
-            state = request.POST['state']
-            zip_code = request.POST['zip_code']
-            phone = request.POST['phone']
-
             billing = BillingInfo(first_name=first_name, last_name=last_name, address=address, city=city,
-                                  state=state, zip_code=zip_code, phone=phone, order=order, customer=user)
+                              state=state, zip_code=zip_code, phone=phone, order=order, customer=user)
+
+            order.save()
             billing.save()
+            cart.clear()
 
             for item in cart:
                 product = item['product']
@@ -152,6 +162,7 @@ class ShoppingCart(View):
 
 
 def user_profile(request):
+    # if request.user.is_authenticated:
     return render(request, 'core/user_profile.html')
 
 
