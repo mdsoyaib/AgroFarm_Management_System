@@ -77,7 +77,7 @@ def insert_order(request):
 
         elif address == '' or city == '' or state == '' or phone == '':
             messages.warning(request, "Please fill-up the billing info properly!")
-            
+
         else:
             order = Order(total_price=total_price, customer=user)
 
