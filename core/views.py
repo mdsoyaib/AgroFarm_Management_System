@@ -47,7 +47,11 @@ def checkout(request):
     #     return render(request, 'core/checkout.html', {'cart': cart})
     # else:
     #     messages.warning(request, "Sorry! Your cart is empty..!")
-    return render(request, 'core/checkout.html', {'cart': cart})
+    user = request.user
+    if user.is_authenticated:
+        return render(request, 'core/checkout.html', {'cart': cart})
+    else:
+        return redirect('login')
 
 
 def insert_order(request):
@@ -127,7 +131,7 @@ class ProductDetails(View):
 
 class Products(View):
     def get(self, request):
-        p = Product.objects.filter(active=True)
+        p = Product.objects.filter(active=True).order_by('-id')
         count_product = Product.objects.all().count()
         paginator = Paginator(p, 9)
         page = request.GET.get("page")
@@ -401,14 +405,19 @@ class UserInfo(View):
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
-
     form = CartAddProductForm(request.POST)
-    if form.is_valid():
-        cd = form.cleaned_data
-        print(cd)
-        cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
 
-    return redirect('cart_detail')
+    if product.quantity == 0:
+        messages.warning(request, "This product doesn't have enough stock!")
+        return redirect('cart_detail')
+    else:
+
+        if form.is_valid():
+            cd = form.cleaned_data
+            print(cd)
+            cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
+
+        return redirect('cart_detail')
 
 
 @require_POST
