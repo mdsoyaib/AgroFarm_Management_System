@@ -74,4 +74,4 @@ urlpatterns = [
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-#comment for testing
+#comment for testing to commit and push
