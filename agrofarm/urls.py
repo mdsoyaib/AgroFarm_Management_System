@@ -73,3 +73,5 @@ urlpatterns = [
     path('payment/', views.payment, name='payment'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#comment for testing
